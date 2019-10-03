@@ -1,7 +1,7 @@
 def add(*lists):
     shapes = {
-        tuple(len(x) for x in matrix)
-        for matrix in lists
+        tuple(len(x) for x in list)
+        for list in lists
     }
     if len(shapes) > 1:
         raise ValueError("Not the same size.")
