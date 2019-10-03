@@ -1,11 +1,8 @@
 def add(*lists):
-    result=[]
-    for rows in zip(*lists):
-        l=[]
-        for values in zip(*rows):
-            l+=[sum(values)]
-        result.append(l)
-    return result
+    return [
+        [sum(values) for values in zip(*rows)]
+        for rows in zip(*lists)
+    ]
 
 """
 matrix1 = [[1, -2], [-3, 4]]
