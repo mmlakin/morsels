@@ -1,9 +1,9 @@
 def add(*lists):
     result=[]
-    for a,b in zip(*lists):
+    for rows in zip(*lists):
         l=[]
-        for x,y in zip(a,b):
-            l+=[x+y]
+        for values in zip(*rows):
+            l+=[sum(values)]
         result.append(l)
     return result
 
