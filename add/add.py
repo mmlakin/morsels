@@ -1,4 +1,10 @@
 def add(*lists):
+    shapes = {
+        tuple(len(x) for x in list)
+        for list in lists
+    }
+    if len(shapes) > 1:
+        raise ValueError("Not the same size.")
     return [
         [sum(values) for values in zip(*rows)]
         for rows in zip(*lists)
