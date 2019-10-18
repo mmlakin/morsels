@@ -1,27 +1,38 @@
-import sys
+#!/usr/bin/env/python3
 
-def replace_file(infile, outfile, oldsep, newsep):
+import sys, csv, argparse
+
+def replace_file(infile, outfile, delim, quote):
     with open(infile, mode="rt", encoding="utf-8") as ifile:
         with open(outfile, mode="wt", encoding="utf-8") as ofile:
-            ofile.writelines(line.replace(oldsep,newsep) for line in ifile)
+            if delim == None or quote == None:
+                sniffed = csv.Sniffer().sniff(ifile.read())
+                if delim == None: delim = sniffed.delimiter
+                if quote == None: quote = sniffed.quotechar
+                ifile.seek(0)
 
-def print_file(infile):
-    with open(infile, mode="rt", encoding="utf-8") as ifile:
-        sys.stdout.writelines(ifile)
+            csv.register_dialect('dynamic',
+                                 delimiter=delim,
+                                 quotechar=quote)
+            csvwriter = csv.writer(ofile)
+            for row in csv.reader(ifile, dialect='dynamic'):
+                csvwriter.writerow(row)
 
-def main(*args):
-    _,infile,outfile,oldsep,newsep = args
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('infile')
+    parser.add_argument('outfile')
+    parser.add_argument('--in-delimiter', dest='delim', type=str,
+                        help='Input file delimiter', metavar='delimiter')
+    parser.add_argument('--in-quote', dest='quote', type=str,
+                        help='Input file comma', metavar='quote')
 
-    print("Replacing {} with {} in {}, saving to {}".format(oldsep,newsep,infile,outfile))
+    return parser.parse_args()
 
-    replace_file(infile,outfile,oldsep,newsep)
+def main():
 
-    print("\nOriginal:")
-    print_file(infile)
-
-    print("\nFixed:")
-    print_file(outfile)
-
+    args = parse_arguments()
+    replace_file(args.infile, args.outfile, args.delim, args.quote)
 
 if __name__ == "__main__":
-    main(*sys.argv)
+    main()
