@@ -5,9 +5,18 @@ Write a function that accepts a sequence (a list for example) and returns a new 
 """
 
 def compact(seq):
+    last = 'crazyvaluenobodyeverexpects'
+    for item in seq:
+        if item != last:
+            yield item
+        last = item
+
+def lcompact(seq):
     compacted = []
-    last = None
+    last = 'crazyvaluenobodyeverexpects'
     for item in seq:
         if item != last:
             compacted.append(item)
         last = item
+    return compacted
+
