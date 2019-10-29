@@ -1,6 +1,6 @@
 #!/usr/bin/env/python3
 
-import csv, argparse
+import sys, csv, argparse
 
 def replace_file(infile, outfile, delim, quote):
     with open(infile, mode="rt", encoding="utf-8") as ifile:
@@ -22,12 +22,15 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('infile')
     parser.add_argument('outfile')
-    parser.add_argument('--in-delimiter', dest='delim', type=str)
-    parser.add_argument('--in-quote', dest='quote', type=str)
-    
+    parser.add_argument('--in-delimiter', dest='delim', type=str,
+                        help='Input file delimiter', metavar='delimiter')
+    parser.add_argument('--in-quote', dest='quote', type=str,
+                        help='Input file comma', metavar='quote')
+
     return parser.parse_args()
 
 def main():
+
     args = parse_arguments()
     replace_file(args.infile, args.outfile, args.delim, args.quote)
 
