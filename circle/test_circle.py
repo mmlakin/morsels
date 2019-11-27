@@ -54,20 +54,16 @@ class CircleTests(unittest.TestCase):
             circle.area = 3
 
     # To test the Bonus part of this exercise, comment out the following line
-    #@unittest.expectedFailure
+    @unittest.expectedFailure
     def test_no_negative_radius(self):
         circle = Circle(2)
         with self.assertRaises(ValueError) as context:
             circle.radius = -10
         self.assertEqual(str(context.exception), "Radius cannot be negative")
-
-   #@unittest.expectedFailure
-    def test_no_negative_radius_from_diameter(self):
-        circle = Circle(2)
         with self.assertRaises(ValueError) as context:
-            circle.diameter = -10
-        self.assertEqual(str(context.exception), "Radius cannot be negative")
+            circle.diameter = -20
+        self.assertEqual(circle.radius, 2)
 
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(verbosity=2)
