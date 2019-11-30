@@ -1,24 +1,13 @@
+#!/usr/bin/env python3
+
+"""
+tail() - Return the last n items of given iterable.
+"""
+
 from collections import deque
 
-def tail(seq, n):
-    if n <= 0:
+def tail(iterable, num):
+    """Return last num items of iterable"""
+    if num <= 0:
         return []
-    return [
-        x for x in deque(seq, n)
-    ]
-
-""" Old slow way with null object:
-def tail(seq,n):
-    if n < 1:
-        return []
-    null = object()
-    l = [null] * n
-    for x in seq:
-        l.append(x)
-        l.pop(0)
-    return [
-        y
-        for y in l
-        if y != null
-    ]
-"""
+    return list(deque(iterable, maxlen=num))
