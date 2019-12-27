@@ -24,12 +24,10 @@ class EasyDict():
         startdict = {}
         try:
             startdict.update(mapping)
-            startdict.update(kwargs)
         except:
             raise self.UnableToUpdateDictWithInput(mapping)
-
         self._normalize = normalize
-
+        startdict.update(kwargs)
         for key,value in startdict.items():
             setattr(self, self.normalized(key), value)
 
