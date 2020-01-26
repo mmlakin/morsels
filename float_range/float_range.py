@@ -61,9 +61,9 @@ class float_range():
             if len(self) == len(other):
                 if len(self) == 0:
                     return True
-                sfirst = next(iter(self))
-                ofirst = next(iter(other))
-                if sfirst == ofirst:
+                same_first = next(iter(self)) == next(iter(other))
+                same_last = next(reversed(self)) == next(reversed(other))
+                if same_first and same_last:
                     return True
             return False
         except:
