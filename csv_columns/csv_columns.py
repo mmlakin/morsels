@@ -5,14 +5,12 @@ csv_columns.py
     column data for each header.
 """
 import csv
-from itertools import zip_longest
+from collections import defaultdict
+
 def csv_columns(input_file_obj, *, headers=None, missing=None) -> dict:
-    """ Takes a file and returns a dict mapping headers to data"""
-    csv_file = csv.reader(input_file_obj)
-    if headers is None:
-        headers = next(csv_file)
-    columns = zip_longest(*csv_file, fillvalue=missing)
-    return {
-        header: list(column)
-        for header, column in zip(headers, columns)
-    }
+    csv_file = csv.DictReader(input_file_obj, fieldnames=headers, restval=missing)
+    csv_dict = defaultdict(list)
+    for row in csv_file:
+        for header, value in row.items():
+            csv_dict[header].append(value)
+    return csv_dict
