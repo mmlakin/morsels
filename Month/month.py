@@ -17,11 +17,14 @@ import calendar
 class Month:
     """Month class Month(year, month) comparable & orderable to self"""
 
+    __slots__ = ["year", "month"]
+
     def from_date(from_date_object):
         return Month(from_date_object.year, from_date_object.month)
 
     def __init__(self, year, month):
-        self.year, self.month = year, month
+        object.__setattr__(self, "year", year)
+        object.__setattr__(self, "month", month)
 
     @property
     def first_day(self):
@@ -40,6 +43,14 @@ class Month:
 
     def __str__(self):
         return f"{self.year}-{self.month:02}"
+
+    def __setattr__(self, attr, value):
+        raise AttributeError
+
+    __delattr__ = __setattr__
+
+    def __hash__(self):
+        return hash((self.year, self.month))
 
     def __eq__(self, other):
         if isinstance(other, Month):
