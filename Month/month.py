@@ -2,31 +2,32 @@
 """
 month.py
 
-This week I'd like you to create a Month class which represents a specific month in a specific year.
+A Month class to represent a specific month and year.
 
->>> dec99 = Month(1999, 12)
->>> dec99
-Month(1999, 12)
->>> print(dec99)
-1999-12
+Month objects have two different string representations, and are comparable to each other using equality and ordering operations.  Month objects are not comparable to other types.
 
-Month objects should have two different string representations (see above). They should also be comparable to each other using equality and ordering operators:
+Bonus 1: Implement first_day and last_day attributes.
 
->>> sorted([Month(1998, 12), Month(2000, 1), Month(1999, 12)])
-[Month(1998, 12), Month(1999, 12), Month(2000, 1)]
-
-Month objects should not be comparable to tuples, lists, date objects, or other non-Month objects (just as tuples and lists are not comparable to each other).
-
->>> Month(1998, 12) < (1998, 12)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: '<' not supported between instances of 'Month' and 'tuple'
 """
+
+import datetime
+import calendar
 
 
 class Month:
+    """Month class Month(year, month) comparable & orderable to self"""
+
     def __init__(self, year, month):
         self.year, self.month = year, month
+
+    @property
+    def first_day(self):
+        return datetime.date(self.year, self.month, 1)
+
+    @property
+    def last_day(self):
+        _, days_in_month = calendar.monthrange(self.year, self.month)
+        return datetime.date(self.year, self.month, days_in_month)
 
     def __repr__(self):
         return f"Month({self.year}, {self.month})"

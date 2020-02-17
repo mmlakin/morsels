@@ -52,7 +52,7 @@ class MonthTests(unittest.TestCase):
         self.assertEqual(new_month.month, python2_eol.month)
 
     # To test the Bonus part of this exercise, comment out the following line
-    @unittest.expectedFailure
+    # @unittest.expectedFailure
     def test_first_day_and_last_day(self):
         python2_eol = Month(2020, 1)
         pycon_2019 = Month(2019, 5)
@@ -66,19 +66,19 @@ class MonthTests(unittest.TestCase):
         self.assertEqual(non_leap_month.last_day, date(1900, 2, 28))
 
     # To test the Bonus part of this exercise, comment out the following line
-    @unittest.expectedFailure
+    # @unittest.expectedFailure
     def test_from_date_and_strftime(self):
         python2_eol = Month.from_date(date(2020, 1, 1))
         self.assertEqual(python2_eol, Month(2020, 1))
         leap_month = Month.from_date(date(2000, 2, 29))
         self.assertEqual(leap_month, Month(2000, 2))
-        self.assertEqual(python2_eol.strftime('%Y-%m'), "2020-01")
-        with set_locale('C'):
-            self.assertEqual(leap_month.strftime('%b %Y'), "Feb 2000")
-            self.assertEqual(python2_eol.strftime('%b %Y'), "Jan 2020")
+        self.assertEqual(python2_eol.strftime("%Y-%m"), "2020-01")
+        with set_locale("C"):
+            self.assertEqual(leap_month.strftime("%b %Y"), "Feb 2000")
+            self.assertEqual(python2_eol.strftime("%b %Y"), "Jan 2020")
 
     # To test the Bonus part of this exercise, comment out the following line
-    @unittest.expectedFailure
+    # @unittest.expectedFailure
     def test_immutability(self):
         python2_eol = Month(2020, 1)
         with self.assertRaises(Exception):
