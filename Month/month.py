@@ -17,6 +17,9 @@ import calendar
 class Month:
     """Month class Month(year, month) comparable & orderable to self"""
 
+    def from_date(from_date_object):
+        return Month(from_date_object.year, from_date_object.month)
+
     def __init__(self, year, month):
         self.year, self.month = year, month
 
@@ -28,6 +31,9 @@ class Month:
     def last_day(self):
         _, days_in_month = calendar.monthrange(self.year, self.month)
         return datetime.date(self.year, self.month, days_in_month)
+
+    def strftime(self, strftime_format_string):
+        return self.first_day.strftime(strftime_format_string)
 
     def __repr__(self):
         return f"Month({self.year}, {self.month})"
