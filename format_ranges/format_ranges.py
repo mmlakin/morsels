@@ -25,13 +25,16 @@ def format_ranges(numlist):
     for number in ordered_numlist:
         if last_num is None:
             output_string = str(number)
-        elif number is last_num + 1:
+        elif number is last_num or number is last_num + 1:
             if consecutive is False:
                 output_string += "-"
                 consecutive = True
         else:
-            output_string += f"{str(last_num)},{str(number)}"
+            if consecutive is True:
+                output_string += str(last_num)
+            output_string += f",{str(number)}"
             consecutive = False
         last_num = number
-    output_string += str(last_num)
+    if consecutive is True:
+        output_string += str(last_num)
     return output_string
