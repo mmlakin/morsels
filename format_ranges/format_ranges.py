@@ -25,7 +25,7 @@ def format_ranges(numlist: list) -> str:
     new_list = [cur_num]
     numlist.remove(cur_num)
     hit_last = False
-    while len(numlist) > 0:
+    while numlist:
         if num_index > len(numlist) - 1:
             num_index = 0
             hit_last = True
