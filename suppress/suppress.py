@@ -10,16 +10,17 @@
 """
 
 
-class suppress:
+from contextlib import ContextDecorator
+
+
+class suppress(ContextDecorator):
     def __init__(self, *errortypes):
         self.errortypes = errortypes
-        self.exception, self.traceback = None, None
 
     def __enter__(self):
         return self
 
     def __exit__(self, err_type, err_val, traceback):
-        if isinstance(err_val, self.errortypes):
-            self.exception = err_val
-            self.traceback = traceback
-            return True
+        self.exception = err_val
+        self.traceback = traceback
+        return isinstance(err_val, self.errortypes)

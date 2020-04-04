@@ -85,8 +85,7 @@ class SuppressTests(unittest.TestCase):
     unittest.expectedFailure
 
     def test_works_as_a_decorator(self):
-        suppress(TypeError)
-
+        @suppress(TypeError)
         def len_or_none(thing):
             return len(thing)
 
