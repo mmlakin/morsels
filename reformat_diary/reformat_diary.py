@@ -6,9 +6,10 @@
 """
 
 import re
+import sys
 
 
-RE_DATE = re.compile(r"^\d{4}[-/]\d{2}[-/]\d{2}")
+RE_DATE = re.compile(r"^\d{4}[-/]\d{2}[-/]\d{2}$")
 
 
 def clean_entry(entry):
@@ -28,3 +29,16 @@ def entries_by_date(diary_file) -> list:
         else:
             cur_entry += diary_line
     yield cur_date, clean_entry(cur_entry)
+
+
+def main(file_name):
+    with open(file_name, "rt") as f_diary:
+        for entry in entries_by_date(f_diary):
+            entry_date, entry_text = entry
+            with open(f"{entry_date}.txt", "wt") as f_entry:
+                f_entry.writelines(entry_text)
+
+
+if __name__ == "__main__":
+    file_name = sys.argv[1]
+    main(file_name)
