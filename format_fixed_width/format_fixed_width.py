@@ -10,18 +10,14 @@ Write a function format_fixed_width() that accepts rows of columns (as
 """
 
 
-def format_fixed_width(columns_list):
-    output_string = ""
-    padding = 2
-    width = 0
-    largest_column = 0
-    for column in columns_list:
-        column_size = sum(len(item) for item in column)
-        if column_size > largest_column:
-            largest_column = column_size
-    width = largest_column + padding
-    for column in columns_list:
-        column_size = sum(len(item) for item in column)
-        column_padding = (width - column_size) * " "
-        output_string += f"{column[0]}{column_padding}{column[1:]}\n"
-    return output_string
+def format_fixed_width(columns_list, *, padding=2):
+    output_list = ["" for _ in range(len(columns_list))]
+    for item_slice in [_ for _ in zip(*columns_list)]:
+        index = 0
+        width = len(max(item_slice, key=len)) + padding
+        for item in item_slice:
+            # print(f"[]{item.ljust(width)}]")
+            output_list[index] += item.ljust(width)
+            index += 1
+    # print(output_list)
+    return "\n".join([line.rstrip() for line in output_list])
