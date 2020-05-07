@@ -17,9 +17,9 @@ def format_fixed_width(columns_list, *, padding=2, widths=None, alignments=None)
         index = 0
 
         if widths is not None:
-            width = widths[slice_index] + padding
+            width = widths[slice_index]
         else:
-            width = len(max(item_slice, key=len)) + padding
+            width = len(max(item_slice, key=len))
 
         if alignments is not None and alignments[slice_index] == "R":
             alignment = "R"
@@ -27,17 +27,11 @@ def format_fixed_width(columns_list, *, padding=2, widths=None, alignments=None)
             alignment = "L"
 
         for item in item_slice:
-            print(f"[]{item.rjust(width)}]")
             if alignment == "L":
-                output_list[index] += item.ljust(width)
+                output_list[index] += item.ljust(width) + (" " * padding)
             else:
-                output_list[index] += item.rjust(width)
-            # output_list[index] += (
-            #     item.ljust(width) if alignment == "L" else item.rjust(width)
-            # )
+                output_list[index] += item.rjust(width) + (" " * padding)
             index += 1
         slice_index += 1
-    # print(output_list)
-    output_string = "\n".join([line.rstrip() for line in output_list])
-    print(output_string)
-    return output_string
+
+    return "\n".join([line.rstrip() for line in output_list])
