@@ -71,29 +71,21 @@ class PermaDict:
         if self.VERBOSE:
             print(f"update_iter: {update_iter}")
             print(f"update_dicts: {update_dicts}")
+
+        update_func = self.force_set if force is True else self.__setitem__
+
         if update_iter:
             try:
                 for k, v in update_iter:
-                    if force is True:
-                        self.force_set(k, v)
-                    else:
-                        self[k] = v
+                    update_func(k, v)
             except (ValueError, TypeError):
                 for k in update_iter:
-                    if force is True:
-                        self.force_set(k, update_iter[k])
-                    else:
-                        self[k] = update_iter[k]
+                    update_func(k, update_iter[k])
+
         if update_dicts:
             for update_dict in update_dicts:
-                if force is True:
-                    self.force_set(k, update_dict[k])
-                else:
-                    self[k] = update_dict[k]
+                self.update(update_dict)
 
         if update_kwargs:
             for k in update_kwargs:
-                if force is True:
-                    self.force_set(k, update_kwargs[k])
-                else:
-                    self[k] = update_kwargs[k]
+                update_func(k, update_kwargs[k])
