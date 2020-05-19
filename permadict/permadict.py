@@ -15,7 +15,7 @@
 """
 
 
-class PermaDict:
+class PermaDict(dict):
     VERBOSE = False
 
     def __init__(self, init=None, *, silent=False, **kwargs):
@@ -36,9 +36,6 @@ class PermaDict:
         if self.VERBOSE is True:
             print(f"Setting {key} to {value}")
         self._dict[key] = value
-
-    def __delitem__(self, item):
-        del self._dict[item]
 
     def __getitem__(self, item):
         return self._dict[item]
@@ -67,10 +64,9 @@ class PermaDict:
     def force_set(self, key, value):
         self._dict[key] = value
 
-    def update(self, update_iter=None, *update_dicts, force=False, **update_kwargs):
+    def update(self, update_iter=None, force=False, **update_kwargs):
         if self.VERBOSE:
             print(f"update_iter: {update_iter}")
-            print(f"update_dicts: {update_dicts}")
 
         update_func = self.force_set if force is True else self.__setitem__
 
@@ -81,10 +77,6 @@ class PermaDict:
             except (ValueError, TypeError):
                 for k in update_iter:
                     update_func(k, update_iter[k])
-
-        if update_dicts:
-            for update_dict in update_dicts:
-                self.update(update_dict)
 
         if update_kwargs:
             for k in update_kwargs:
