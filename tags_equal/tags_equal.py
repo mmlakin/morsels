@@ -9,23 +9,23 @@
 
 
 def clean_tag(tag: str) -> list:
-    """ Cleans a tag and returns a dict of tag keys and values, respecting the
-        first value set for a key """
-
-    # Remove markup symbols
-    markup = "<", ">"
-    for symbol in markup:
-        tag = tag.replace(symbol, "")
-
-    tag = tag.upper()
-    tag = tag.split(" ")
-
+    """ Returns a tuple containing the tag name and a dict of the tag's keys
+        and values, respecting the first value set for a key """
     tagdict = dict()
     quotedstringkey = None
     quotes = "'", '"'
-    for item in tag:
+
+    # Remove brackets around tag
+    tag = tag[1:-1]
+
+    tag = tag.upper()
+
+    name, *attributes = tag.split()
+
+    for item in attributes:
         if quotedstringkey is not None:
             previouskey = quotedstringkey
+            # If end of quoted string
             if item[-1] in quotes:
                 quotedstringkey = None
             for quote in quotes:
@@ -38,13 +38,14 @@ def clean_tag(tag: str) -> list:
         if key not in tagdict.keys():
             value = item[1] if len(item) > 1 else ""
             if value != "":
+                # If beginning of quoted string
                 if value[0] in quotes and value[-1] not in quotes:
                     quotedstringkey = key
                 for quote in quotes:
                     value = value.replace(quote, "")
             tagdict[key] = value
 
-    return tagdict
+    return name, tagdict
 
 
 def tags_equal(tag1: str, tag2: str) -> bool:
